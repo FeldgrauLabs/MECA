@@ -45,8 +45,9 @@ export const Emoticon = ({ label, fixedTextSize }: EmoticonProps) => {
 
   return (
     <div
-      className={`bg-white h-48 rounded-3xl text-black flex flex-col items-center justify-center ${textSize} cursor-pointer group`}
+      className={`bg-white h-48 rounded-3xl text-black flex flex-col items-center justify-center ${textSize} cursor-pointer group hover:border-2 hover:border-purple-500 outline-purple-500`}
       onClick={copyToClipboard}
+      tabIndex={0}
     >
       <div
         className="grow flex items-center group-hover:text-purple-500"
