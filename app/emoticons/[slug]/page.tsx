@@ -19,7 +19,7 @@ export default async function Page({
 
   return (
     <div className="max-w-xl m-auto py-12">
-      <Emoticon label={emoticon.display} />
+      <Emoticon label={emoticon.display} fixedTextSize='text-2xl' />
       <Buttons emoticon={emoticon} />
     </div>
   )
