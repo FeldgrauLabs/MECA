@@ -39,9 +39,13 @@ export const Emoticon = ({ label, fixedTextSize }: EmoticonProps) => {
     textSize = 'text-2xl';
   }
 
+  if (fixedTextSize) {
+    textSize = fixedTextSize;
+  }
+
   return (
     <div
-      className={`bg-gray-200 h-48 rounded-3xl text-black flex flex-col items-center justify-center ${textSize} cursor-pointer group`}
+      className={`bg-white h-48 rounded-3xl text-black flex flex-col items-center justify-center ${textSize} cursor-pointer group`}
       onClick={copyToClipboard}
     >
       <div
