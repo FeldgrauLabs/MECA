@@ -1,5 +1,6 @@
 'use client';
 
+import { constructEmoticonPath } from "@/components/ActionBar";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Emoticon } from "@/libs/emoticons";
@@ -23,7 +24,8 @@ export const Buttons = ({ emoticon }: ButtonsProps) => {
   }
 
   const copyUrl = () => {
-    navigator.clipboard.writeText(window.location.href);
+    const url = constructEmoticonPath(emoticon.id);
+    navigator.clipboard.writeText(url);
     toast({
       title: 'Copied URL',
       description: 'You can now share this link',

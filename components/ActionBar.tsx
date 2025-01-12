@@ -4,6 +4,14 @@ import { useToast } from "@/hooks/use-toast";
 import { Emoticon } from "@/libs/emoticons";
 import { CopyIcon, ShareIcon } from "lucide-react";
 
+export const constructEmoticonPath = (id: string) => {
+  const url = new URL(window.location.href);
+  url.pathname = `/emoticons/${id}`;
+  url.search = '';
+
+  return url.toString();
+}
+
 export const ActionBar = ({ emoticon }: { emoticon: Emoticon }) => {
   const { toast } = useToast();
 
@@ -20,7 +28,8 @@ export const ActionBar = ({ emoticon }: { emoticon: Emoticon }) => {
 
   const copyUrl = (e: React.MouseEvent) => {
     e.stopPropagation();
-    navigator.clipboard.writeText(`${window.location.href}/${emoticon.id}`);
+    const url = constructEmoticonPath(emoticon.id);
+    navigator.clipboard.writeText(url);
     toast({
       title: 'Copied URL',
       description: 'You can now share this link',
