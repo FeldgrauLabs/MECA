@@ -19,10 +19,10 @@ export default async function Page(props: Props) {
   }
 
   return (
-    <div className='max-w-4xl m-auto py-12'>
-      <div className='grid grid-cols-3 gap-4'>
+    <div className='max-w-md md:max-w-xl lg:max-w-4xl m-auto py-12'>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
         {emoticons.map((emoticon) => (
-          <Emoticon key={emoticon.id} label={emoticon.display} />
+          <Emoticon key={emoticon.id} emoticon={emoticon} withActions />
         ))}
       </div>
       <div className='pt-4'>
