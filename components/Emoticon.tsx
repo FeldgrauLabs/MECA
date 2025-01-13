@@ -58,7 +58,7 @@ export const Emoticon = ({ emoticon, fixedTextSize, withActions = false }: Emoti
         tabIndex={0}
       >
         <div
-          className="grow flex items-center group-hover:text-purple-500"
+          className="grow flex items-center group-hover:text-purple-500 font-[family-name:var(--font-geist-sans)]"
         >
           {emoticon.display}
         </div>

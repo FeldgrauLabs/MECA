@@ -2,6 +2,7 @@
 
 import { useToast } from "@/hooks/use-toast";
 import { Emoticon } from "@/libs/emoticons";
+import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { CopyIcon, ShareIcon } from "lucide-react";
 
 export const constructEmoticonPath = (id: string) => {
@@ -47,13 +48,21 @@ export const ActionBar = ({ emoticon }: { emoticon: Emoticon }) => {
     <div className="absolute bottom-4">
       <div className="flex gap-1 px-2 py-1">
         {actions.map((action) => (
-          <button
-            key={action.label}
-            onClick={action.action}
-            className="h-8 w-8 flex items-center justify-center bg-purple-100 rounded-full hover:bg-purple-200"
-          >
-            {action.icon}
-          </button>
+          <TooltipProvider key={action.label}>
+            <Tooltip>
+              <TooltipTrigger>
+                <button
+                  onClick={action.action}
+                  className="h-8 w-8 flex items-center justify-center bg-purple-100 rounded-full hover:bg-purple-200"
+                >
+                  {action.icon}
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{action.label}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         ))}
       </div>
     </div>
