@@ -25,11 +25,16 @@ export default function Home() {
         </div>
 
         <div className="relative w-full">
-
-          <div className="flex justify-center items-center w-full gap-2">
-            <span className="absolute left-0 animate-poke-right">(☞ﾟヮﾟ)☞</span>
+          <div className="flex justify-center items-center gap-2">
+            <span className="absolute -left-28 animate-poke-right transform translate-x-full">(☞ﾟヮﾟ)☞</span>
             <Link
-              className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
+              className="rounded-full border border-solid border-black/[.4] transition-colors flex items-center justify-center hover:bg-foreground hover:text-white hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
+              href="/lucky"
+            >
+              I'm feeling Lucky
+            </Link>
+            <Link
+              className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
               href="/emoticons"
               rel="noopener noreferrer"
               prefetch
