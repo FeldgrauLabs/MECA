@@ -48,21 +48,19 @@ export const ActionBar = ({ emoticon }: { emoticon: Emoticon }) => {
     <div className="absolute bottom-4">
       <div className="flex gap-1 px-2 py-1">
         {actions.map((action) => (
-          <TooltipProvider key={action.label}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button
-                  onClick={action.action}
-                  className="h-8 w-8 flex items-center justify-center bg-purple-100 rounded-full hover:bg-purple-200"
-                >
-                  {action.icon}
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{action.label}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <Tooltip key={action.label}>
+            <TooltipTrigger asChild>
+              <button
+                onClick={action.action}
+                className="h-8 w-8 flex items-center justify-center bg-purple-100 rounded-full hover:bg-purple-200"
+              >
+                {action.icon}
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{action.label}</p>
+            </TooltipContent>
+          </Tooltip>
         ))}
       </div>
     </div>
