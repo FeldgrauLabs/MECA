@@ -19,7 +19,7 @@ const playpenSans = Playpen_Sans({
 })
 
 export const metadata: Metadata = {
-  title: "MECA",
+  title: "ʕ •ᴥ•ʔ MECA",
   description: "Make Emoticon Cool Again",
 };
 

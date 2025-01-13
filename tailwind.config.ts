@@ -55,7 +55,21 @@ export default {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
-  		}
+  		},
+			keyframes: {
+				'poke-right': {
+					'0%, 100%': { transform: 'translateX(0)' },
+					'50%': { transform: 'translateX(10px)' }
+				},
+				wiggle: {
+          '0%, 100%': { transform: 'rotate(-3deg)' },
+          '50%': { transform: 'rotate(3deg)' },
+        },
+			},
+			animation: {
+				'poke-right': 'poke-right 1s ease-in-out infinite',
+				wiggle: 'wiggle 1s ease-in-out infinite',
+      }
   	}
   },
   plugins: [require("tailwindcss-animate")],

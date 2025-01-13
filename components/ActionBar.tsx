@@ -50,7 +50,7 @@ export const ActionBar = ({ emoticon }: { emoticon: Emoticon }) => {
         {actions.map((action) => (
           <TooltipProvider key={action.label}>
             <Tooltip>
-              <TooltipTrigger>
+              <TooltipTrigger asChild>
                 <button
                   onClick={action.action}
                   className="h-8 w-8 flex items-center justify-center bg-purple-100 rounded-full hover:bg-purple-200"
