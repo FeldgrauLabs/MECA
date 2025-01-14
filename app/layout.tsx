@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "ʕ •ᴥ•ʔ MECA",
-  description: "Make Emoticon Cool Again",
+  description: "Make Emoticons Cool Again",
 };
 
 export default function RootLayout({

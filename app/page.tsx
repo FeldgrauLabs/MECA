@@ -14,7 +14,7 @@ export default function Home() {
             <span className="font-bold text-purple-600">M</span>ake
           </div>
           <div>
-            <span className="font-bold text-purple-600">E</span>moticon
+            <span className="font-bold text-purple-600">E</span>moticons
           </div>
           <div>
             <span className="font-bold text-purple-600">C</span>ool

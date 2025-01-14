@@ -3,6 +3,7 @@ import { turso } from "./turso";
 export interface GetEmoticonParams {
   pageNumber: number;
   pageSize: number;
+  query?: string;
 }
 
 export interface Emoticon {
@@ -14,11 +15,13 @@ export interface Emoticon {
 export const getEmoticons = async ({
   pageNumber = 1,
   pageSize = 10,
+  query = '',
 }: GetEmoticonParams): Promise<Emoticon[]> => {
   try {
     const response = await turso.execute({
-      sql: "SELECT * FROM emoticon LIMIT (:limit) OFFSET (:offset)",
+      sql: `SELECT * FROM emoticon WHERE chunk_text LIKE (:query) LIMIT (:limit) OFFSET (:offset)`,
       args: {
+        query: `%${query}%`,
         limit: pageSize,
         offset: (pageNumber - 1) * pageSize,
       },

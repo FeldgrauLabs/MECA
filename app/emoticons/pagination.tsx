@@ -1,7 +1,8 @@
+'use client';
+
 import {
   Pagination as BasePagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -13,8 +14,14 @@ interface PaginationProps {
 }
 
 export const Pagination = ({ currentPage }: PaginationProps) => {
-
   const hasPrevious = currentPage > 1;
+
+  const createHref = (page: number) => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('page', page.toString());
+
+    return url.toString();
+  }
 
   return (
     <div className="py-4">
@@ -23,16 +30,16 @@ export const Pagination = ({ currentPage }: PaginationProps) => {
           <PaginationItem>
             <PaginationPrevious
               className={hasPrevious ? '' : 'pointer-events-none'}
-              href={`/emoticons?page=${currentPage - 1}`}
+              href={createHref(currentPage - 1)}
               aria-disabled={!hasPrevious}
               tabIndex={hasPrevious ? undefined : -1}
             />
           </PaginationItem>
           <PaginationItem>
-            <PaginationLink href={`/emoticons?page=${currentPage}`} isActive>{currentPage}</PaginationLink>
+            <PaginationLink href={createHref(currentPage)} isActive>{currentPage}</PaginationLink>
           </PaginationItem>
           <PaginationItem>
-            <PaginationNext href={`/emoticons?page=${currentPage + 1}`} />
+            <PaginationNext href={createHref(currentPage + 1)} />
           </PaginationItem>
         </PaginationContent>
       </BasePagination>
