@@ -42,7 +42,7 @@ export function Search({ query, dict }: SearchProps) {
       />
       <Button onClick={onSearch}>
         <SearchIcon className="h-4 w-4" />
-        {dict.common.search}
+        <span className="hidden sm:inline">{dict.common.search}</span>
       </Button>
     </div>
   )

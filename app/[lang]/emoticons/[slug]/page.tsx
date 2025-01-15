@@ -22,7 +22,7 @@ export default async function Page({
   }
 
   return (
-    <div className="max-w-xl m-auto py-12">
+    <div className="max-w-xl m-auto py-12 px-4 sm:px-0">
       <Emoticon emoticon={emoticon} fixedTextSize='text-2xl' dict={dict} />
       <Buttons emoticon={emoticon} dict={dict} />
     </div>
