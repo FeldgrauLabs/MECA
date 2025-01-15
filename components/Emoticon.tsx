@@ -4,6 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ActionBar } from "./ActionBar";
 import { Emoticon as EmoticonType } from "@/libs/emoticons";
 import { LocaleDict } from "@/app/[lang]/dictionaries";
+import { usePostHog } from "posthog-js/react";
 
 interface EmoticonProps {
   emoticon: EmoticonType;
@@ -20,12 +21,22 @@ interface EmoticonProps {
   dict: LocaleDict;
 }
 
+const POSTHOG_VIA = 'card';
+
 export const Emoticon = ({ emoticon, fixedTextSize, withActions = false, dict }: EmoticonProps) => {
   const { toast } = useToast();
+  const posthog = usePostHog();
 
   const characterCount = emoticon.display.length;
 
   const copyToClipboard = () => {
+    posthog.capture('emoticon_copy', {
+      emoticon: emoticon.display,
+      emoticon_id: emoticon.id,
+
+      via: POSTHOG_VIA,
+    });
+
     navigator.clipboard.writeText(emoticon.display);
     toast({
       title: dict.toast.copy.title,

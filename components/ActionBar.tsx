@@ -5,6 +5,7 @@ import { Emoticon } from "@/libs/emoticons";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { CopyIcon, ShareIcon } from "lucide-react";
 import { LocaleDict } from "@/app/[lang]/dictionaries";
+import { usePostHog } from "posthog-js/react";
 
 export const constructEmoticonPath = (id: string) => {
   const url = new URL(window.location.href);
@@ -14,13 +15,24 @@ export const constructEmoticonPath = (id: string) => {
   return url.toString();
 }
 
+const POSTHOG_VIA = 'action_button'
+
 export const ActionBar = ({ emoticon, dict }: { emoticon: Emoticon, dict: LocaleDict }) => {
   const { toast } = useToast();
+  const posthog = usePostHog();
 
   const { display } = emoticon;
 
   const copyToClipboard = (e: React.MouseEvent) => {
     e.stopPropagation();
+
+    posthog.capture('emoticon_copy', {
+      emoticon: emoticon.display,
+      emoticon_id: emoticon.id,
+
+      via: POSTHOG_VIA,
+    });
+
     navigator.clipboard.writeText(display);
     toast({
       title: dict.toast.copy.title,
@@ -30,6 +42,14 @@ export const ActionBar = ({ emoticon, dict }: { emoticon: Emoticon, dict: Locale
 
   const copyUrl = (e: React.MouseEvent) => {
     e.stopPropagation();
+
+    posthog.capture('emoticon_share', {
+      emoticon: emoticon.display,
+      emoticon_id: emoticon.id,
+
+      via: POSTHOG_VIA,
+    });
+
     const url = constructEmoticonPath(emoticon.id);
     navigator.clipboard.writeText(url);
     toast({

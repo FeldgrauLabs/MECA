@@ -6,19 +6,30 @@ import { useToast } from "@/hooks/use-toast";
 import { Emoticon } from "@/libs/emoticons";
 import { CopyIcon, ShareIcon } from "lucide-react";
 import { LocaleDict } from "../../dictionaries";
+import { usePostHog } from "posthog-js/react";
 
 interface ButtonsProps {
   emoticon: Emoticon;
   dict: LocaleDict;
 }
 
+const POSTHOG_VIA = 'action_button';
+
 export const Buttons = ({ emoticon, dict }: ButtonsProps) => {
   const { toast } = useToast();
+  const posthog = usePostHog();
 
   const { display } = emoticon;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(display);
+    posthog.capture('emoticon_copy', {
+      emoticon: emoticon.display,
+      emoticon_id: emoticon.id,
+
+      via: POSTHOG_VIA,
+    });
+
     toast({
       title: dict.toast.copy.title,
       description: dict.toast.copy.description,
@@ -26,6 +37,13 @@ export const Buttons = ({ emoticon, dict }: ButtonsProps) => {
   }
 
   const copyUrl = () => {
+    posthog.capture('emoticon_share', {
+      emoticon: emoticon.display,
+      emoticon_id: emoticon.id,
+
+      via: POSTHOG_VIA,
+    });
+
     const url = constructEmoticonPath(emoticon.id);
     navigator.clipboard.writeText(url);
     toast({

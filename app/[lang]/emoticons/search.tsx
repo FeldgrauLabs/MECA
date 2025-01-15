@@ -6,6 +6,7 @@ import { SearchIcon } from "lucide-react"
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { LocaleDict } from "../dictionaries";
+import { usePostHog } from "posthog-js/react";
 
 interface SearchProps {
   query?: string;
@@ -13,6 +14,8 @@ interface SearchProps {
 }
 
 export function Search({ query, dict }: SearchProps) {
+  const posthog = usePostHog();
+
   const [value, setValue] = useState(query || '');
   const router = useRouter();
 
@@ -23,6 +26,8 @@ export function Search({ query, dict }: SearchProps) {
   }
 
   const onSearch = () => {
+    posthog.capture('emoticon_search', { query: value });
+
     const url = new URL(window.location.href);
     url.searchParams.set('q', value);
     url.searchParams.set('page', '1');
