@@ -1,0 +1,24 @@
+{
+  "common": {
+    "sourceCode": "ソースコード",
+    "browse": "閲覧",
+    "search": "検索",
+    "keyword": "キーワード",
+    "copy": "コピー",
+    "share": "共有"
+  },
+  "landing": {
+    "browseAll": "すべて閲覧",
+    "feelingLucky": "運試し"
+  },
+  "toast": {
+    "copy": {
+      "title": "クリップボードにコピーしました",
+      "description": "どこにでも貼り付けられます"
+    },
+    "share": {
+      "title": "URLをコピーしました",
+      "description": "このリンクを共有できます"
+    }
+  }
+}

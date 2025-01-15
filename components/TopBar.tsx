@@ -2,8 +2,9 @@ import Link from "next/link"
 import { MecaBear } from "./MecaBear"
 import { BookIcon, GithubIcon } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip"
+import { LocaleDict } from "@/app/[lang]/dictionaries"
 
-export const TopBar = () => {
+export const TopBar = ({ dict }: { dict: LocaleDict }) => {
   return (
     <div className="container mx-auto">
       <div className="w-full h-16 flex justify-between items-center">
@@ -18,7 +19,7 @@ export const TopBar = () => {
               </Link>
             </TooltipTrigger>
             <TooltipContent>
-              <p>Browse</p>
+              <p>{dict.common.browse}</p>
             </TooltipContent>
           </Tooltip>
           <Tooltip>
@@ -29,7 +30,7 @@ export const TopBar = () => {
               </Link>
             </TooltipTrigger>
             <TooltipContent>
-              <p>Source Code</p>
+              <p>{dict.common.sourceCode}</p>
             </TooltipContent>
           </Tooltip>
 

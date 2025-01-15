@@ -1,15 +1,19 @@
 import { Emoticon } from "@/components/Emoticon";
 import { getEmoticon } from "@/libs/emoticons"
 import { Buttons } from "./actions";
+import { getDictionary, SupportedLang } from "../../dictionaries";
 
 interface Props {
-  params: Promise<{ slug: string }>
+  params: Promise<{ slug: string, lang: SupportedLang }>
 }
 
 export default async function Page({
   params,
 }: Props) {
-  const slug = (await params).slug
+  const slug = (await params).slug;
+
+  const lang = (await params).lang;
+  const dict = await getDictionary(lang);
 
   const emoticon = await getEmoticon(slug);
 
@@ -19,8 +23,8 @@ export default async function Page({
 
   return (
     <div className="max-w-xl m-auto py-12">
-      <Emoticon emoticon={emoticon} fixedTextSize='text-2xl' />
-      <Buttons emoticon={emoticon} />
+      <Emoticon emoticon={emoticon} fixedTextSize='text-2xl' dict={dict} />
+      <Buttons emoticon={emoticon} dict={dict} />
     </div>
   )
 }

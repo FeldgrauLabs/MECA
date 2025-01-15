@@ -3,6 +3,7 @@
 import { useToast } from "@/hooks/use-toast";
 import { ActionBar } from "./ActionBar";
 import { Emoticon as EmoticonType } from "@/libs/emoticons";
+import { LocaleDict } from "@/app/[lang]/dictionaries";
 
 interface EmoticonProps {
   emoticon: EmoticonType;
@@ -16,9 +17,10 @@ interface EmoticonProps {
    * @default false
    */
   withActions?: boolean;
+  dict: LocaleDict;
 }
 
-export const Emoticon = ({ emoticon, fixedTextSize, withActions = false }: EmoticonProps) => {
+export const Emoticon = ({ emoticon, fixedTextSize, withActions = false, dict }: EmoticonProps) => {
   const { toast } = useToast();
 
   const characterCount = emoticon.display.length;
@@ -26,8 +28,8 @@ export const Emoticon = ({ emoticon, fixedTextSize, withActions = false }: Emoti
   const copyToClipboard = () => {
     navigator.clipboard.writeText(emoticon.display);
     toast({
-      title: 'Copied to clipboard',
-      description: 'You can now paste it anywhere',
+      title: dict.toast.copy.title,
+      description: dict.toast.copy.description,
     });
   }
 
@@ -63,7 +65,7 @@ export const Emoticon = ({ emoticon, fixedTextSize, withActions = false }: Emoti
           {emoticon.display}
         </div>
         {withActions && (
-          <ActionBar emoticon={emoticon} />
+          <ActionBar emoticon={emoticon} dict={dict} />
         )}
       </div>
     </div>

@@ -1,8 +1,16 @@
 import { MecaBear } from "@/components/MecaBear";
 import { GithubIcon } from "lucide-react";
 import Link from "next/link";
+import { getDictionary, SupportedLang } from "./dictionaries";
 
-export default function Home() {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ lang: SupportedLang }>
+}) {
+  const lang = (await params).lang
+  const dict = await getDictionary(lang)
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-[calc(100vh-4rem)] p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
@@ -31,7 +39,7 @@ export default function Home() {
               className="rounded-full border border-solid border-black/[.4] transition-colors flex items-center justify-center hover:bg-foreground hover:text-white hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
               href="/lucky"
             >
-              I'm feeling Lucky
+              {dict.landing.feelingLucky}
             </Link>
             <Link
               className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
@@ -39,7 +47,7 @@ export default function Home() {
               rel="noopener noreferrer"
               prefetch
             >
-              Browse All
+              {dict.landing.browseAll}
             </Link>
           </div>
         </div>
@@ -52,7 +60,7 @@ export default function Home() {
           rel="noopener noreferrer"
         >
           <GithubIcon />
-          Source Code
+          {dict.common.sourceCode}
         </a>
       </footer>
     </div>

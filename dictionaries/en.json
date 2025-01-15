@@ -1,0 +1,24 @@
+{
+  "common": {
+    "sourceCode": "Source Code",
+    "browse": "Browse",
+    "search": "Search",
+    "keyword": "Keyword",
+    "copy": "Copy",
+    "share": "Share"
+  },
+  "landing": {
+    "browseAll": "Browse all",
+    "feelingLucky": "I'm feeling lucky"
+  },
+  "toast": {
+    "copy": {
+      "title": "Copied to clipboard",
+      "description": "You can now paste it anywhere"
+    },
+    "share": {
+      "title": "Copied URL",
+      "description": "You can now share this link"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "common": {
+    "sourceCode": "Code Source",
+    "browse": "Parcourir",
+    "search": "Rechercher",
+    "keyword": "Mot-clé",
+    "copy": "Copier",
+    "share": "Partager"
+  },
+  "landing": {
+    "browseAll": "Parcourir tout",
+    "feelingLucky": "Je me sens chanceux"
+  },
+  "toast": {
+    "copy": {
+      "title": "Copié dans le presse-papier",
+      "description": "Vous pouvez maintenant le coller n'importe où"
+    },
+    "share": {
+      "title": "URL copiée",
+      "description": "Vous pouvez maintenant partager ce lien"
+    }
+  }
+}

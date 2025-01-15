@@ -5,12 +5,14 @@ import { Input } from "@/components/ui/input"
 import { SearchIcon } from "lucide-react"
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { LocaleDict } from "../dictionaries";
 
 interface SearchProps {
   query?: string;
+  dict: LocaleDict;
 }
 
-export function Search({ query }: SearchProps) {
+export function Search({ query, dict }: SearchProps) {
   const [value, setValue] = useState(query || '');
   const router = useRouter();
 
@@ -32,7 +34,7 @@ export function Search({ query }: SearchProps) {
     <div className="flex w-full items-center space-x-2">
       <Input
         type="text"
-        placeholder="Search"
+        placeholder={dict.common.search}
         className="bg-white"
         value={value}
         onChange={e => setValue(e.target.value)}
@@ -40,7 +42,7 @@ export function Search({ query }: SearchProps) {
       />
       <Button onClick={onSearch}>
         <SearchIcon className="h-4 w-4" />
-        Search
+        {dict.common.search}
       </Button>
     </div>
   )

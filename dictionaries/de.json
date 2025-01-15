@@ -1,0 +1,24 @@
+{
+  "common": {
+    "sourceCode": "Quellcode",
+    "browse": "Durchsuchen",
+    "search": "Suchen",
+    "keyword": "Stichwort",
+    "copy": "Kopieren",
+    "share": "Teilen"
+  },
+  "landing": {
+    "browseAll": "Alles durchsuchen",
+    "feelingLucky": "Ich fühle mich glücklich"
+  },
+  "toast": {
+    "copy": {
+      "title": "In die Zwischenablage kopiert",
+      "description": "Sie können es jetzt überall einfügen"
+    },
+    "share": {
+      "title": "URL kopiert",
+      "description": "Sie können diesen Link jetzt teilen"
+    }
+  }
+}

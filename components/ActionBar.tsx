@@ -2,8 +2,9 @@
 
 import { useToast } from "@/hooks/use-toast";
 import { Emoticon } from "@/libs/emoticons";
-import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { CopyIcon, ShareIcon } from "lucide-react";
+import { LocaleDict } from "@/app/[lang]/dictionaries";
 
 export const constructEmoticonPath = (id: string) => {
   const url = new URL(window.location.href);
@@ -13,7 +14,7 @@ export const constructEmoticonPath = (id: string) => {
   return url.toString();
 }
 
-export const ActionBar = ({ emoticon }: { emoticon: Emoticon }) => {
+export const ActionBar = ({ emoticon, dict }: { emoticon: Emoticon, dict: LocaleDict }) => {
   const { toast } = useToast();
 
   const { display } = emoticon;
@@ -22,8 +23,8 @@ export const ActionBar = ({ emoticon }: { emoticon: Emoticon }) => {
     e.stopPropagation();
     navigator.clipboard.writeText(display);
     toast({
-      title: 'Copied to clipboard',
-      description: 'You can now paste it anywhere',
+      title: dict.toast.copy.title,
+      description: dict.toast.copy.description,
     });
   }
 
@@ -32,15 +33,15 @@ export const ActionBar = ({ emoticon }: { emoticon: Emoticon }) => {
     const url = constructEmoticonPath(emoticon.id);
     navigator.clipboard.writeText(url);
     toast({
-      title: 'Copied URL',
-      description: 'You can now share this link',
+      title: dict.toast.share.title,
+      description: dict.toast.share.description,
     });
   }
 
   const actions = [
-    { icon: <CopyIcon className="w-4 h-4" />, label: 'Copy', action: copyToClipboard, },
+    { icon: <CopyIcon className="w-4 h-4" />, label: dict.common.copy, action: copyToClipboard, },
     {
-      icon: <ShareIcon className="w-4 h-4" />, label: 'Share', action: copyUrl
+      icon: <ShareIcon className="w-4 h-4" />, label: dict.common.share, action: copyUrl
     },
   ]
 

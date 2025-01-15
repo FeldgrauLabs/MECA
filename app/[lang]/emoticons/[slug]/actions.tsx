@@ -5,12 +5,14 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Emoticon } from "@/libs/emoticons";
 import { CopyIcon, ShareIcon } from "lucide-react";
+import { LocaleDict } from "../../dictionaries";
 
 interface ButtonsProps {
   emoticon: Emoticon;
+  dict: LocaleDict;
 }
 
-export const Buttons = ({ emoticon }: ButtonsProps) => {
+export const Buttons = ({ emoticon, dict }: ButtonsProps) => {
   const { toast } = useToast();
 
   const { display } = emoticon;
@@ -18,8 +20,8 @@ export const Buttons = ({ emoticon }: ButtonsProps) => {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(display);
     toast({
-      title: 'Copied to clipboard',
-      description: 'You can now paste it anywhere',
+      title: dict.toast.copy.title,
+      description: dict.toast.copy.description,
     });
   }
 
@@ -27,14 +29,14 @@ export const Buttons = ({ emoticon }: ButtonsProps) => {
     const url = constructEmoticonPath(emoticon.id);
     navigator.clipboard.writeText(url);
     toast({
-      title: 'Copied URL',
-      description: 'You can now share this link',
+      title: dict.toast.share.title,
+      description: dict.toast.share.description,
     });
   }
 
   const actions = [
-    { label: 'Copy', icon: <CopyIcon />, onClick: copyToClipboard },
-    { label: 'Share', icon: <ShareIcon />, onClick: copyUrl },
+    { label: dict.common.copy, icon: <CopyIcon />, onClick: copyToClipboard },
+    { label: dict.common.share, icon: <ShareIcon />, onClick: copyUrl },
   ]
 
   return (

@@ -1,0 +1,24 @@
+{
+  "common": {
+    "sourceCode": "Código Fuente",
+    "browse": "Navegar",
+    "search": "Buscar",
+    "keyword": "Palabra clave",
+    "copy": "Copiar",
+    "share": "Compartir"
+  },
+  "landing": {
+    "browseAll": "Explorar todo",
+    "feelingLucky": "Me siento con suerte"
+  },
+  "toast": {
+    "copy": {
+      "title": "Copiado al portapapeles",
+      "description": "Ahora puedes pegarlo en cualquier lugar"
+    },
+    "share": {
+      "title": "URL copiada",
+      "description": "Ahora puedes compartir este enlace"
+    }
+  }
+}

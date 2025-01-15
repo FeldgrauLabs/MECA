@@ -4,6 +4,11 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { TopBar } from "@/components/TopBar";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { getDictionary, SupportedLang } from "./dictionaries";
+
+export async function generateStaticParams() {
+  return [{ lang: 'en' }, { lang: 'de' }]
+}
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,13 +25,18 @@ export const metadata: Metadata = {
   description: "Make Emoticons Cool Again",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ lang: SupportedLang }>
 }>) {
+  const lang = (await params).lang;
+  const dict = await getDictionary(lang);
+
   return (
-    <html lang="en">
+    <html lang={lang}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -38,7 +48,7 @@ export default function RootLayout({
           }}
         >
           <TooltipProvider>
-            <TopBar />
+            <TopBar dict={dict} />
             {children}
           </TooltipProvider>
         </div>
