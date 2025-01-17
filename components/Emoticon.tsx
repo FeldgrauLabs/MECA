@@ -5,9 +5,12 @@ import { ActionBar } from "./ActionBar";
 import { Emoticon as EmoticonType } from "@/libs/emoticons";
 import { LocaleDict } from "@/app/[lang]/dictionaries";
 import { usePostHog } from "posthog-js/react";
+import { BookmarkIcon } from "lucide-react";
+import { useAuth } from "@clerk/nextjs";
 
 interface EmoticonProps {
   emoticon: EmoticonType;
+  isFav: boolean;
   /**
    * If value set, the emoticon will be displayed with fixed size.
    * @default 'text-2xl'
@@ -19,13 +22,16 @@ interface EmoticonProps {
    */
   withActions?: boolean;
   dict: LocaleDict;
+  addOp: (userId: string, emoticonId: string) => Promise<boolean>;
+  removeOp: (userId: string, emoticonId: string) => Promise<boolean>;
 }
 
 const POSTHOG_VIA = 'card';
 
-export const Emoticon = ({ emoticon, fixedTextSize, withActions = false, dict }: EmoticonProps) => {
+export const Emoticon = ({ emoticon, fixedTextSize, withActions = false, dict, isFav = false, addOp, removeOp }: EmoticonProps) => {
   const { toast } = useToast();
   const posthog = usePostHog();
+  const { userId } = useAuth();
 
   const characterCount = emoticon.display.length;
 
@@ -33,6 +39,7 @@ export const Emoticon = ({ emoticon, fixedTextSize, withActions = false, dict }:
     posthog.capture('emoticon_copy', {
       emoticon: emoticon.display,
       emoticon_id: emoticon.id,
+      user_id: userId,
 
       via: POSTHOG_VIA,
     });
@@ -70,13 +77,20 @@ export const Emoticon = ({ emoticon, fixedTextSize, withActions = false, dict }:
         onClick={copyToClipboard}
         tabIndex={0}
       >
+        {isFav && (
+          <div className="absolute top-4 right-4">
+            <div className="w-6 h-6 text-purple-600">
+              <BookmarkIcon />
+            </div>
+          </div>
+        )}
         <div
           className="grow flex items-center group-hover:text-purple-500 font-[family-name:var(--font-geist-sans)]"
         >
           {emoticon.display}
         </div>
         {withActions && (
-          <ActionBar emoticon={emoticon} dict={dict} />
+          <ActionBar emoticon={emoticon} dict={dict} isFav={isFav} addOp={addOp} removeOp={removeOp} />
         )}
       </div>
     </div>

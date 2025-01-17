@@ -5,7 +5,10 @@
     "search": "検索",
     "keyword": "キーワード",
     "copy": "コピー",
-    "share": "共有"
+    "share": "共有",
+    "addToFav": "お気に入り",
+    "removeFromFav": "お気に入りから削除",
+    "loginToAction": "この操作を実行するにはログインが必要です"
   },
   "landing": {
     "browseAll": "すべて閲覧",
@@ -19,6 +22,14 @@
     "share": {
       "title": "URLをコピーしました",
       "description": "このリンクを共有できます"
+    },
+    "addToFav": {
+      "title": "お気に入りに追加しました",
+      "description": "お気に入りで確認できます"
+    },
+    "removeFromFav": {
+      "title": "お気に入りから削除されました",
+      "description": "これ以上お気に入りに表示されません"
     }
   }
 }

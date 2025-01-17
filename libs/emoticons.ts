@@ -1,3 +1,5 @@
+'use server'
+
 import { turso } from "./turso";
 
 export interface GetEmoticonParams {
@@ -65,5 +67,62 @@ export const getEmoticon = async (id: string): Promise<Emoticon | null> => {
   } catch (error) {
     console.error(error);
     return null;
+  }
+}
+
+export const getUserFavEmoticonIds = async (userId: string | null) => {
+  if (!userId) {
+    return [];
+  }
+
+  try {
+    const response = await turso.execute({
+      sql: "SELECT emoticon_id FROM saved_collection WHERE user_id = (:userId)",
+      args: {
+        userId,
+      },
+    });
+
+    const { rows } = response;
+
+    return rows.map((row) => row.emoticon_id) as string[];
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
+export const saveEmoticonToDefaultCollection = async (userId: string, emoticonId: string): Promise<boolean> => {
+  try {
+    await turso.execute({
+      sql: "INSERT INTO saved_collection (user_id, emoticon_id, name) VALUES (:userId, :emoticonId, :name)",
+      args: {
+        userId,
+        emoticonId,
+        name: "Default"
+      },
+    });
+
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}
+
+export const removeEmoticonFromDefaultCollection = async (userId: string, emoticonId: string): Promise<boolean> => {
+  try {
+    await turso.execute({
+      sql: "DELETE FROM saved_collection WHERE user_id = (:userId) AND emoticon_id = (:emoticonId)",
+      args: {
+        userId,
+        emoticonId,
+      },
+    });
+
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
   }
 }

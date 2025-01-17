@@ -5,7 +5,10 @@
     "search": "Buscar",
     "keyword": "Palabra clave",
     "copy": "Copiar",
-    "share": "Compartir"
+    "share": "Compartir",
+    "addToFav": "Favorito",
+    "removeFromFav": "Eliminar de favoritos",
+    "loginToAction": "Debes iniciar sesión para realizar esta acción"
   },
   "landing": {
     "browseAll": "Explorar todo",
@@ -19,6 +22,14 @@
     "share": {
       "title": "URL copiada",
       "description": "Ahora puedes compartir este enlace"
+    },
+    "addToFav": {
+      "title": "Añadido a favoritos",
+      "description": "Ahora puedes encontrarlo en tus favoritos"
+    },
+    "removeFromFav": {
+      "title": "Eliminado de favoritos",
+      "description": "Esto ya no aparecerá en tus favoritos"
     }
   }
 }

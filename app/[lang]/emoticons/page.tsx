@@ -1,8 +1,10 @@
 import { Emoticon } from '@/components/Emoticon';
-import { getEmoticons } from '@/libs/emoticons'
+import { getEmoticons, getUserFavEmoticonIds } from '@/libs/emoticons'
 import { Pagination } from './pagination';
 import { Search } from './search';
 import { getDictionary, SupportedLang } from '../dictionaries';
+import { auth } from '@clerk/nextjs/server';
+import { addOp, removeOp } from './[slug]/page';
 
 interface Props {
   searchParams?: Promise<{
@@ -14,12 +16,14 @@ interface Props {
 
 export default async function Page(props: Props) {
   const lang = (await props.params).lang
+  const { userId } = await auth()
 
   const searchParams = await props.searchParams;
   const currentPage = Number(searchParams?.page) || 1;
   const query = searchParams?.q;
 
   const emoticons = await getEmoticons({ pageNumber: currentPage, pageSize: 24, query });
+  const userFavEmoticonIds = await getUserFavEmoticonIds(userId);
 
   const dict = await getDictionary(lang);
 
@@ -33,7 +37,15 @@ export default async function Page(props: Props) {
         <Search query={query} dict={dict} />
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
           {emoticons.map((emoticon) => (
-            <Emoticon key={emoticon.id} emoticon={emoticon} dict={dict} withActions />
+            <Emoticon
+              key={emoticon.id}
+              emoticon={emoticon}
+              dict={dict}
+              withActions
+              isFav={userFavEmoticonIds.includes(emoticon.id)}
+              addOp={addOp}
+              removeOp={removeOp}
+            />
           ))}
         </div>
         <div className='pt-4'>

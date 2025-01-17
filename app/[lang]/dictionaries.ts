@@ -8,6 +8,9 @@ export type LocaleDict = {
     keyword: string;
     copy: string;
     share: string;
+    addToFav: string;
+    removeFromFav: string;
+    loginToAction: string;
   };
   landing: {
     browseAll: string;
@@ -22,6 +25,14 @@ export type LocaleDict = {
       title: string;
       description: string;
     };
+    addToFav: {
+      title: string;
+      description: string;
+    },
+    removeFromFav: {
+      title: string;
+      description: string;
+    }
   };
 }
 

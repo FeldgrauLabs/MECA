@@ -5,7 +5,10 @@
     "search": "Search",
     "keyword": "Keyword",
     "copy": "Copy",
-    "share": "Share"
+    "share": "Share",
+    "addToFav": "Add to favourite",
+    "removeFromFav": "Remove from favourite",
+    "loginToAction": "You are required to login to perform this action"
   },
   "landing": {
     "browseAll": "Browse all",
@@ -19,6 +22,14 @@
     "share": {
       "title": "Copied URL",
       "description": "You can now share this link"
+    },
+    "addToFav": {
+      "title": "Added to favourites",
+      "description": "You can now find it in your favourites"
+    },
+    "removeFromFav": {
+      "title": "Removed from favourites",
+      "description": "This will no longer appear in your favourites"
     }
   }
 }
