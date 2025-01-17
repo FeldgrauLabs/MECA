@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/nextjs": "^6.9.12",
     "@formatjs/intl-localematcher": "^0.5.10",
     "@libsql/client": "^0.14.0",
     "@radix-ui/react-slot": "^1.1.1",

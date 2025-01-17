@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { match } from '@formatjs/intl-localematcher'
 import Negotiator from 'negotiator'
 import { SupportedLang } from "./app/[lang]/dictionaries";
+import { clerkMiddleware, createRouteMatcher} from '@clerk/nextjs/server';
  
 const locales: SupportedLang[] = ['en', 'jp', 'es', 'de', 'fr']
  
@@ -14,7 +15,9 @@ function getLocale(request: NextRequest) {
   return l;
 }
  
-export function middleware(request: NextRequest) {
+const isProtectedRoute = createRouteMatcher([]);
+
+function langMiddleware(request: NextRequest) {
   // Check if there is any supported locale in the pathname
   const { pathname } = request.nextUrl
   const pathnameHasLocale = locales.some(
@@ -31,14 +34,18 @@ export function middleware(request: NextRequest) {
 
   return NextResponse.redirect(request.nextUrl)
 }
+
+export default clerkMiddleware((auth, req) => {
+  if (isProtectedRoute(req)) {
+    // Nothing is protected as of now
+  }
  
+  return langMiddleware(req);
+});
+
 export const config = {
   matcher: [
     // Skip all internal paths (_next)
     '/((?!_next|favicon.ico).*)',
-    // "/((?!favicon.ico).*)"
-    // Optional: only run on root (/) URL
-    // '/',
-    // '/(en|jp|fr|de|es)/:path*'
   ],
 }
