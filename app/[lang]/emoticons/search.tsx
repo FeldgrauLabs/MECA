@@ -8,13 +8,15 @@ import { useState } from "react";
 import { LocaleDict } from "../dictionaries";
 import { usePostHog } from "posthog-js/react";
 import { useAuth } from "@clerk/nextjs";
+import { SavedToggle } from "./savedToggle";
 
 interface SearchProps {
   query?: string;
   dict: LocaleDict;
+  filtered: boolean;
 }
 
-export function Search({ query, dict }: SearchProps) {
+export function Search({ query, dict, filtered }: SearchProps) {
   const posthog = usePostHog();
   const { userId } = useAuth();
 
@@ -42,6 +44,7 @@ export function Search({ query, dict }: SearchProps) {
 
   return (
     <div className="flex w-full items-center space-x-2">
+      <SavedToggle state={filtered ? 'active' : 'inactive'} />
       <Input
         type="text"
         placeholder={dict.common.search}

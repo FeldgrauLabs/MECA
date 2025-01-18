@@ -6,6 +6,7 @@ export interface GetEmoticonParams {
   pageNumber: number;
   pageSize: number;
   query?: string;
+  userId?: string | null;
 }
 
 export interface Emoticon {
@@ -18,18 +19,37 @@ export const getEmoticons = async ({
   pageNumber = 1,
   pageSize = 10,
   query = '',
+  userId = null
 }: GetEmoticonParams): Promise<Emoticon[]> => {
   try {
-    const response = await turso.execute({
-      sql: `SELECT * FROM emoticon WHERE chunk_text LIKE (:query) LIMIT (:limit) OFFSET (:offset)`,
-      args: {
-        query: `%${query}%`,
-        limit: pageSize,
-        offset: (pageNumber - 1) * pageSize,
-      },
-    });
-  
-    const { rows } = response;
+    let rows;
+    if (userId) {
+      const response = await turso.execute({
+        sql: `SELECT e.* FROM emoticon e
+        LEFT JOIN saved_collection sc ON e.id = sc.emoticon_id AND sc.user_id = (:userId)
+        WHERE e.chunk_text LIKE (:query) AND sc.user_id = (:userId)
+        LIMIT (:limit) OFFSET (:offset)`,
+        args: {
+          userId,
+          query: `%${query}%`,
+          limit: pageSize,
+          offset: (pageNumber - 1) * pageSize,
+        },
+      });
+
+      rows = response.rows;
+    } else {
+      const response = await turso.execute({
+        sql: "SELECT * FROM emoticon WHERE chunk_text LIKE (:query) LIMIT (:limit) OFFSET (:offset)",
+        args: {
+          query: `%${query}%`,
+          limit: pageSize,
+          offset: (pageNumber - 1) * pageSize,
+        },
+      });
+
+      rows = response.rows;
+    }
   
     return rows.map((row) => ({
       id: row.id,
