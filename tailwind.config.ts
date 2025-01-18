@@ -65,10 +65,20 @@ export default {
           '0%, 100%': { transform: 'rotate(-3deg)' },
           '50%': { transform: 'rotate(3deg)' },
         },
+				'scroll-left': {
+					'0%': { transform: 'translateX(0%)' },
+					'100%': { transform: 'translateX(-100%)' }
+				},
+				'scroll-right': {
+					'0%': { transform: 'translateX(-80%)' },
+					'100%': { transform: 'translateX(20%)' }
+				}
 			},
 			animation: {
 				'poke-right': 'poke-right 1s ease-in-out infinite',
 				wiggle: 'wiggle 1s ease-in-out infinite',
+				'scroll-left': 'scroll-left 60s linear infinite',
+				'scroll-right': 'scroll-right 60s linear infinite',
       }
   	}
   },
