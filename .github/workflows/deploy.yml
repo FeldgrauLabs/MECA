@@ -1,0 +1,47 @@
+name: Deploy to vercel on merge
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dkershner6/vercel-set-env-action@v3
+        with:
+          token: ${{ secrets.VERCEL_TOKEN }}
+          projectName: cool-emoticons
+          envVariableKeys: TURSO_DATABASE_URL,TURSO_API_KEY,NEXT_PUBLIC_POSTHOG_KEY,NEXT_PUBLIC_POSTHOG_HOST,NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,CLERK_SECRET_KEY
+        env:
+          TURSO_DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
+          TARGET_TURSO_DATABASE_URL: production
+          TYPE_TURSO_DATABASE_URL: encrypted
+
+          TURSO_API_KEY: ${{ secrets.TURSO_API_KEY }}
+          TARGET_TURSO_API_KEY: production
+          TYPE_TURSO_API_KEY: encrypted
+
+          NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.NEXT_PUBLIC_POSTHOG_KEY }}
+          TARGET_NEXT_PUBLIC_POSTHOG_KEY: production
+          TYPE_NEXT_PUBLIC_POSTHOG_KEY: encrypted
+
+          NEXT_PUBLIC_POSTHOG_HOST: ${{ secrets.NEXT_PUBLIC_POSTHOG_HOST }}
+          TARGET_NEXT_PUBLIC_POSTHOG_HOST: production
+          TYPE_NEXT_PUBLIC_POSTHOG_HOST: encrypted
+
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+          TARGET_NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: production
+          TYPE_NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: encrypted
+
+          CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+          TARGET_CLERK_SECRET_KEY: production
+          TYPE_CLERK_SECRET_KEY: encrypted
+
+      - uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-args: '--prod'
+          vercel-org-id: ${{ secrets.ORG_ID }}
+          vercel-project-id: ${{ secrets.PROJECT_ID }}
