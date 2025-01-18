@@ -120,16 +120,38 @@ export const ActionBar = ({ emoticon, dict, isFav = false, addOp, removeOp }: {
 
   if (!userId) {
     actions.push(
-      { label: dict.common.addToFav, icon: <BookmarkIcon className="w-4 h-4" />, onClick: () => null, disabled: true, disabledMessage: dict.common.loginToAction },
+      {
+        label: dict.common.addToFav,
+        icon: <BookmarkIcon className="w-4 h-4" />,
+        onClick: (e) => {
+          e.stopPropagation();
+        },
+        disabled: true,
+        disabledMessage: dict.common.loginToAction
+      },
     )
   } else {
     if (isFav) {
       actions.push(
-        { label: dict.common.removeFromFav, icon: <BookmarkXIcon className="w-4 h-4" />, onClick: () => removeFromCollection(userId) },
+        {
+          label: dict.common.removeFromFav,
+          icon: <BookmarkXIcon className="w-4 h-4" />,
+          onClick: async (e) => {
+            e.stopPropagation();
+            await removeFromCollection(userId)
+          }
+        },
       )
     } else {
       actions.push(
-        { label: dict.common.addToFav, icon: <BookmarkIcon className="w-4 h-4" />, onClick: () => addToCollection(userId) },
+        {
+          label: dict.common.addToFav,
+          icon: <BookmarkIcon className="w-4 h-4" />,
+          onClick: async (e) => {
+            e.stopPropagation();
+            await addToCollection(userId);
+          }
+        },
       )
     }
   }
