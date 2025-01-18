@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { SearchIcon } from "lucide-react"
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { LocaleDict } from "../dictionaries";
 import { usePostHog } from "posthog-js/react";
@@ -19,6 +19,8 @@ interface SearchProps {
 export function Search({ query, dict, filtered }: SearchProps) {
   const posthog = usePostHog();
   const { userId } = useAuth();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const [value, setValue] = useState(query || '');
   const router = useRouter();
@@ -35,11 +37,12 @@ export function Search({ query, dict, filtered }: SearchProps) {
       user_id: userId,
     });
 
-    const url = new URL(window.location.href);
-    url.searchParams.set('q', value);
-    url.searchParams.set('page', '1');
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('q', value);
+    params.set('page', '1');
 
-    router.push(url.toString());
+    const url = `${pathname}?${params.toString()}`
+    router.push(url);
   }
 
   return (

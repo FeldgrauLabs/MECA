@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { useAuth } from "@clerk/nextjs";
 import { BookmarkIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface Props {
   state: 'active' | 'inactive';
@@ -12,6 +12,9 @@ interface Props {
 
 export function SavedToggle({ state }: Props) {
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const { userId } = useAuth();
 
   const goToAll = () => {
@@ -19,10 +22,11 @@ export function SavedToggle({ state }: Props) {
       return;
     }
 
-    const url = new URL(window.location.href);
-    url.searchParams.delete('collection');
+    const params = new URLSearchParams(searchParams.toString())
+    params.delete('collection');
 
-    router.push(url.toString());
+    const url = `${pathname}?${params.toString()}`
+    router.push(url);
   }
 
   const goToLimited = () => {
@@ -30,10 +34,11 @@ export function SavedToggle({ state }: Props) {
       return;
     }
 
-    const url = new URL(window.location.href);
-    url.searchParams.set('collection', 'default');
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('collection', 'default');
 
-    router.push(url.toString());
+    const url = `${pathname}?${params.toString()}`
+    router.push(url);
   }
 
   const tooltipText = state === 'active' ? 'Remove favs filter' : 'Filter favs only';

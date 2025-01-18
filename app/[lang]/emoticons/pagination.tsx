@@ -8,6 +8,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
+import { usePathname, useSearchParams } from "next/navigation";
 
 interface PaginationProps {
   currentPage: number
@@ -15,12 +16,13 @@ interface PaginationProps {
 
 export const Pagination = ({ currentPage }: PaginationProps) => {
   const hasPrevious = currentPage > 1;
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const createHref = (page: number) => {
-    const url = new URL(window.location.href);
-    url.searchParams.set('page', page.toString());
-
-    return url.toString();
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('page', page.toString())
+    return `${pathname}?${params.toString()}`;
   }
 
   return (
