@@ -37,8 +37,7 @@ export const TopBar = ({ dict }: { dict: LocaleDict }) => {
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
-              {/* FIXME: Replace with repo link */}
-              <Link href='https://github.com' target="_blank" className="hover:text-purple-600 rounded-full p-1 flex items-center justify-center border-2 border-purple-600">
+              <Link href='https://github.com/FeldgrauLabs/MECA' target="_blank" className="hover:text-purple-600 rounded-full p-1 flex items-center justify-center border-2 border-purple-600">
                 <GithubIcon className="h-5 w-5" />
               </Link>
             </TooltipTrigger>

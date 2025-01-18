@@ -72,7 +72,7 @@ export default async function Page({
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
         <a
           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://github.com/" // FIXME: Replace with this repo link
+          href='https://github.com/FeldgrauLabs/MECA'
           target="_blank"
           rel="noopener noreferrer"
         >
