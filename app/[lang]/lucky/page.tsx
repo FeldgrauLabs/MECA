@@ -12,4 +12,6 @@ export default function Page() {
   const formatted = random.toString().padStart(8, '0');
 
   router.replace(`/emoticons/${formatted}`)
+
+  return <></>
 }
