@@ -4,6 +4,7 @@ import { Buttons } from "./actions";
 import { getDictionary, SupportedLang } from "../../dictionaries";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
+import { QRPane } from "@/components/QRPane";
 
 export const addOp = async (userId: string, emoticonId: string) => {
   "use server"
@@ -49,6 +50,7 @@ export default async function Page({
     <div className="max-w-xl m-auto py-12 px-4 sm:px-0">
       <Emoticon emoticon={emoticon} fixedTextSize='text-2xl' dict={dict} isFav={isFav} addOp={addOp} removeOp={removeOp} />
       <Buttons emoticon={emoticon} dict={dict} isFav={isFav} addOp={addOp} removeOp={removeOp} />
+      <QRPane emoticon={emoticon} />
     </div>
   )
 }

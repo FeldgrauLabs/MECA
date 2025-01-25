@@ -9,10 +9,16 @@ import { usePostHog } from "posthog-js/react";
 import { useAuth } from "@clerk/nextjs";
 import { ReactNode } from "react";
 
-export const constructEmoticonPath = (id: string) => {
+export const constructEmoticonPath = (id: string, searchParams?: Record<string, string>) => {
   const url = new URL(window.location.href);
   url.pathname = `/emoticons/${id}`;
   url.search = '';
+
+  if (searchParams) {
+    Object.keys(searchParams).forEach(key => {
+      url.searchParams.append(key, searchParams[key]);
+    });
+  }
 
   return url.toString();
 }
