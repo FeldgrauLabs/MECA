@@ -3,15 +3,16 @@
 import { useToast } from "@/hooks/use-toast";
 import { Emoticon } from "@/libs/emoticons";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
-import { BookmarkIcon, BookmarkXIcon, CopyIcon, ShareIcon } from "lucide-react";
+import { BookmarkIcon, BookmarkXIcon, CopyIcon, MessageSquareIcon, ShareIcon } from "lucide-react";
 import { LocaleDict } from "@/app/[lang]/dictionaries";
 import { usePostHog } from "posthog-js/react";
 import { useAuth } from "@clerk/nextjs";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
+import { useRouter } from "next/navigation";
 
-export const constructEmoticonPath = (id: string, searchParams?: Record<string, string>) => {
+export const constructEmoticonPath = (id: string, postPathname?: string, searchParams?: Record<string, string>) => {
   const url = new URL(window.location.href);
-  url.pathname = `/emoticons/${id}`;
+  url.pathname = `/emoticons/${id}${postPathname ?? ''}`;
   url.search = '';
 
   if (searchParams) {
@@ -43,6 +44,7 @@ export const ActionBar = ({ emoticon, dict, isFav = false, addOp, removeOp }: {
   const { toast } = useToast();
   const posthog = usePostHog();
   const { userId } = useAuth();
+  const router = useRouter();
 
   const { display } = emoticon;
 
@@ -83,6 +85,24 @@ export const ActionBar = ({ emoticon, dict, isFav = false, addOp, removeOp }: {
     });
   }
 
+  const createMessage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    posthog.capture('emoticon_create_message', {
+      emoticon: emoticon.display,
+      emoticon_id: emoticon.id,
+      user_id: userId,
+
+      via: POSTHOG_VIA,
+    });
+
+    const url = constructEmoticonPath(emoticon.id, '/message', {
+      edit: 'yes'
+    });
+
+    router.push(url);
+  }
+
   const addToCollection = async (userId: string) => {
     await addOp(userId, emoticon.id);
 
@@ -121,6 +141,9 @@ export const ActionBar = ({ emoticon, dict, isFav = false, addOp, removeOp }: {
     { icon: <CopyIcon className="w-4 h-4" />, label: dict.common.copy, onClick: copyToClipboard, },
     {
       icon: <ShareIcon className="w-4 h-4" />, label: dict.common.share, onClick: copyUrl
+    },
+    {
+      icon: <MessageSquareIcon className="w-4 h-4" />, label: 'Create message', onClick: createMessage
     },
   ]
 

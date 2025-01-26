@@ -4,12 +4,13 @@ import { constructEmoticonPath } from "@/components/ActionBar";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Emoticon } from "@/libs/emoticons";
-import { BookmarkIcon, BookmarkXIcon, CopyIcon, ShareIcon } from "lucide-react";
+import { BookmarkIcon, BookmarkXIcon, CopyIcon, MessageSquareIcon, ShareIcon } from "lucide-react";
 import { LocaleDict } from "../../dictionaries";
 import { usePostHog } from "posthog-js/react";
 import { useAuth } from "@clerk/nextjs";
 import { ReactNode } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useRouter } from "next/navigation";
 
 interface ButtonsProps {
   emoticon: Emoticon;
@@ -34,6 +35,7 @@ export const Buttons = ({ emoticon, dict, isFav = false, addOp, removeOp }: Butt
   const { toast } = useToast();
   const posthog = usePostHog();
   const { userId } = useAuth();
+  const router = useRouter();
 
   const { display } = emoticon;
 
@@ -68,6 +70,22 @@ export const Buttons = ({ emoticon, dict, isFav = false, addOp, removeOp }: Butt
       title: dict.toast.share.title,
       description: dict.toast.share.description,
     });
+  }
+
+  const createMessage = () => {
+    posthog.capture('emoticon_create_message', {
+      emoticon: emoticon.display,
+      emoticon_id: emoticon.id,
+      user_id: userId,
+
+      via: POSTHOG_VIA,
+    });
+
+    const url = constructEmoticonPath(emoticon.id, '/message', {
+      edit: 'yes'
+    });
+
+    router.push(url);
   }
 
   const addToCollection = async (userId: string) => {
@@ -107,6 +125,7 @@ export const Buttons = ({ emoticon, dict, isFav = false, addOp, removeOp }: Butt
   const actions: Action[] = [
     { label: dict.common.copy, icon: <CopyIcon />, onClick: copyToClipboard },
     { label: dict.common.share, icon: <ShareIcon />, onClick: copyUrl },
+    { label: 'Create message', icon: <MessageSquareIcon />, onClick: createMessage },
   ]
 
   if (!userId) {
