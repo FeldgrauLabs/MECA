@@ -4,6 +4,8 @@ import Link from "next/link";
 import { getDictionary, SupportedLang } from "./dictionaries";
 import { currentUser } from "@clerk/nextjs/server";
 import { FlashBanner } from "@/components/FlashBanner";
+import Image from "next/image";
+import FL_IMG from '../../public/images/FL_stamp.png';
 
 export default async function Page({
   params,
@@ -73,7 +75,7 @@ export default async function Page({
           </div>
         </div>
       </main>
-      <footer className="row-start-3 flex flex-wrap items-center justify-center">
+      <footer className="row-start-3 flex gap-4 flex-wrap items-center justify-center">
         <a
           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
           href='https://github.com/FeldgrauLabs/MECA'
@@ -82,6 +84,15 @@ export default async function Page({
         >
           <GithubIcon />
           {dict.common.sourceCode}
+        </a>
+        <a
+          // TODO: Replace with feldgrau labs website
+          href='https://github.com/FeldgrauLabs/MECA'
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute hidden sm:block right-4 bottom-4 grayscale hover:grayscale-0"
+        >
+          <Image src={FL_IMG} alt='product of feldgrau labs' width={96} height={96} />
         </a>
       </footer>
     </div>
