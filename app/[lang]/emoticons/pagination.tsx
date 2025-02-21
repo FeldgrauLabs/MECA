@@ -35,13 +35,14 @@ export const Pagination = ({ currentPage }: PaginationProps) => {
               href={createHref(currentPage - 1)}
               aria-disabled={!hasPrevious}
               tabIndex={hasPrevious ? undefined : -1}
+              prefetch
             />
           </PaginationItem>
           <PaginationItem>
             <PaginationLink href={createHref(currentPage)} isActive>{currentPage}</PaginationLink>
           </PaginationItem>
           <PaginationItem>
-            <PaginationNext href={createHref(currentPage + 1)} />
+            <PaginationNext href={createHref(currentPage + 1)} prefetch />
           </PaginationItem>
         </PaginationContent>
       </BasePagination>

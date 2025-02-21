@@ -2,10 +2,11 @@ import { MecaBear } from "@/components/MecaBear";
 import { GithubIcon } from "lucide-react";
 import Link from "next/link";
 import { getDictionary, SupportedLang } from "./dictionaries";
-import { currentUser } from "@clerk/nextjs/server";
 import { FlashBanner } from "@/components/FlashBanner";
 import Image from "next/image";
 import FL_IMG from '../../public/images/FL_stamp.png';
+import { CustomGreetings } from "./CustomGreetings";
+import { Suspense } from "react";
 
 export default async function Page({
   params,
@@ -15,26 +16,15 @@ export default async function Page({
   const lang = (await params).lang;
   const dict = await getDictionary(lang);
 
-  const user = await currentUser();
-  let name;
 
-  if (user && (user.firstName || user.lastName)) {
-    name = `${user.firstName} ${user.lastName}`;
-  }
 
   return (
     <div className="grid grid-rows-3 items-center justify-items-center min-h-[calc(100vh-8rem)] p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <div className="row-start-1 h-full w-full flex flex-col">
         <FlashBanner />
-        <div className="flex grow items-end justify-center">
-          {name && (
-            <div className="flex items-end p-3 m-2 bg-purple-600 text-gray-50 rounded-xl rounded-bl-none text-sm transform translate-x-28 max-w-40">
-              <span className="truncate">
-                Hello {name}
-              </span>
-            </div>
-          )}
-        </div>
+        <Suspense fallback={<></>}>
+          <CustomGreetings />
+        </Suspense>
       </div>
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <div className="text-4xl w-full items-center flex justify-center cursor-pointer">

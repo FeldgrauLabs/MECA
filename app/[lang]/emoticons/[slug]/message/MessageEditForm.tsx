@@ -2,26 +2,31 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Loader2Icon } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 
 export const MessageEditForm = () => {
   const [message, setMessage] = useState('');
   const router = useRouter();
   const pathname = usePathname();
+  const [isPending, startTransition] = useTransition();
 
   const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+    startTransition(() => {
 
-    if (message.trim() === '') {
-      return;
-    }
+      e.preventDefault();
 
-    // redirect to the same page, but 
-    // 1. remove the `edit` query param
-    // 2. add the `text` query param with the message
-    const path = `${pathname}?text=${encodeURIComponent(message)}`;
-    router.push(path);
+      if (message.trim() === '') {
+        return;
+      }
+
+      // redirect to the same page, but 
+      // 1. remove the `edit` query param
+      // 2. add the `text` query param with the message
+      const path = `${pathname}?text=${encodeURIComponent(message)}`;
+      router.push(path);
+    })
   }
 
   return (
@@ -39,7 +44,10 @@ export const MessageEditForm = () => {
           }}
           className="bg-white"
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={isPending}>
+          Submit
+          {isPending && <Loader2Icon className="animate-spin" />}
+        </Button>
       </form>
     </div>
   )

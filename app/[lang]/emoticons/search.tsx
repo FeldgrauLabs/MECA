@@ -2,9 +2,9 @@
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { SearchIcon } from "lucide-react"
+import { Loader2Icon, SearchIcon } from "lucide-react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { LocaleDict } from "../dictionaries";
 import { usePostHog } from "posthog-js/react";
 import { useAuth } from "@clerk/nextjs";
@@ -22,6 +22,8 @@ export function Search({ query, dict, filtered }: SearchProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
+  const [isPending, startTransition] = useTransition();
+
   const [value, setValue] = useState(query || '');
   const router = useRouter();
 
@@ -37,12 +39,14 @@ export function Search({ query, dict, filtered }: SearchProps) {
       user_id: userId,
     });
 
-    const params = new URLSearchParams(searchParams.toString())
-    params.set('q', value);
-    params.set('page', '1');
+    startTransition(() => {
+      const params = new URLSearchParams(searchParams.toString())
+      params.set('q', value);
+      params.set('page', '1');
 
-    const url = `${pathname}?${params.toString()}`
-    router.push(url);
+      const url = `${pathname}?${params.toString()}`
+      router.push(url);
+    });
   }
 
   return (
@@ -56,8 +60,8 @@ export function Search({ query, dict, filtered }: SearchProps) {
         onChange={e => setValue(e.target.value)}
         onKeyDown={onSearchEnter}
       />
-      <Button onClick={onSearch}>
-        <SearchIcon className="h-4 w-4" />
+      <Button onClick={onSearch} disabled={isPending}>
+        {isPending ? <Loader2Icon className="w-4 h-4 animate-spin" /> : <SearchIcon className="h-4 w-4" />}
         <span className="hidden sm:inline">{dict.common.search}</span>
       </Button>
     </div>

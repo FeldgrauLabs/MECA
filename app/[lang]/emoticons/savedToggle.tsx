@@ -3,8 +3,9 @@
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { useAuth } from "@clerk/nextjs";
-import { BookmarkIcon } from "lucide-react";
+import { BookmarkIcon, Loader2Icon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useTransition } from "react";
 
 interface Props {
   state: 'active' | 'inactive';
@@ -14,31 +15,36 @@ export function SavedToggle({ state }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
 
   const { userId } = useAuth();
 
   const goToAll = () => {
-    if (!userId) {
-      return;
-    }
+    startTransition(() => {
+      if (!userId) {
+        return;
+      }
 
-    const params = new URLSearchParams(searchParams.toString())
-    params.delete('collection');
+      const params = new URLSearchParams(searchParams.toString())
+      params.delete('collection');
 
-    const url = `${pathname}?${params.toString()}`
-    router.push(url);
+      const url = `${pathname}?${params.toString()}`
+      router.push(url);
+    });
   }
 
   const goToLimited = () => {
-    if (!userId) {
-      return;
-    }
+    startTransition(() => {
+      if (!userId) {
+        return;
+      }
 
-    const params = new URLSearchParams(searchParams.toString())
-    params.set('collection', 'default');
+      const params = new URLSearchParams(searchParams.toString())
+      params.set('collection', 'default');
 
-    const url = `${pathname}?${params.toString()}`
-    router.push(url);
+      const url = `${pathname}?${params.toString()}`
+      router.push(url);
+    });
   }
 
   const tooltipText = state === 'active' ? 'Remove favs filter' : 'Filter favs only';
@@ -47,10 +53,11 @@ export function SavedToggle({ state }: Props) {
     <Tooltip>
       <TooltipTrigger asChild>
         <Button
-          variant={state === 'active' ? 'default' : 'secondary'}
+          variant={state === 'active' ? 'default' : 'outline'}
           onClick={state === 'active' ? goToAll : goToLimited}
+          disabled={isPending}
         >
-          <BookmarkIcon className="h-4 w-4" />
+          {isPending ? <Loader2Icon className="h-4 w-4 animate-spin" /> : <BookmarkIcon className="h-4 w-4" />}
         </Button>
       </TooltipTrigger>
       <TooltipContent>
